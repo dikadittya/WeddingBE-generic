@@ -60,14 +60,22 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $expiresAt = now()->addMinutes(env('TOKEN_EXPIRED', 15));
+        $tokenResult = $user->createToken('auth_token', ['*'], $expiresAt);
+        
+        // Update expires_at manually if needed
+        $tokenResult->accessToken->forceFill([
+            'expires_at' => $expiresAt,
+        ])->save();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'data' => [
                 'user' => $user,
-                'access_token' => $token,
+                'access_token' => $tokenResult->plainTextToken,
+                'expires_at' => $expiresAt->format('Y-m-d H:i:s'),
+                'expires_in_minutes' => env('TOKEN_EXPIRED', 15),
                 'token_type' => 'Bearer',
             ]
         ]);
@@ -83,6 +91,63 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Logged out successfully'
+        ]);
+    }
+
+    /**
+     * Refresh token expiration without changing the token
+     */
+    public function refreshToken(Request $request)
+    {
+        $user = $request->user()->select('id', 'name', 'email', 'role')->first();
+        $expirationMinutes = env('TOKEN_EXPIRED', 15);
+        $currentToken = $request->user()->currentAccessToken();
+        
+        // Update the token's updated_at to extend expiration
+        $currentToken->forceFill([
+            'updated_at' => now(),
+            'expires_at' => now()->addMinutes($expirationMinutes),
+        ])->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Token refreshed successfully',
+            'data' => [
+                'user' => $user,
+                'expires_in_minutes' => $expirationMinutes,
+                'new_expiration' => now()->addMinutes($expirationMinutes)->format('Y-m-d H:i:s')
+            ]
+        ]);
+    }
+
+    /**
+     * Get current user with token details
+     */
+    public function me(Request $request)
+    {
+        $user = $request->user()->select('id', 'name', 'email', 'role')->first();
+        $currentToken = $request->user()->currentAccessToken();
+        $tokenCreatedAt = $currentToken->created_at;
+        $tokenExpiresAt = $currentToken->expires_at;
+        
+        // Calculate remaining time in seconds for more accuracy
+        $remainingSeconds = now()->diffInSeconds($tokenExpiresAt, false);
+        $remainingMinutes = ceil($remainingSeconds / 60);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User details retrieved successfully',
+            'data' => [
+                'user' => $user,
+                'token_info' => [
+                    'name' => $currentToken->name,
+                    'created_at' => $tokenCreatedAt->format('Y-m-d H:i:s'),
+                    'last_used_at' => $currentToken->last_used_at ? $currentToken->last_used_at->format('Y-m-d H:i:s') : null,
+                    'expires_at' => $tokenExpiresAt->format('Y-m-d H:i:s'),
+                    'remaining_in_minutes' => (int)$remainingMinutes,
+                    'remaining_in_seconds' => max(0, (int)$remainingSeconds),
+                ]
+            ]
         ]);
     }
 }
