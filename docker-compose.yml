@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # Laravel Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: wedding-be-generic
+    container_name: wedding-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "8080:80"
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_HOST=mysql
+      - DB_DATABASE=wedding_db
+      - DB_USERNAME=wedding_user
+      - DB_PASSWORD=wedding_password
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - wedding-network
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: wedding-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=wedding_db
+      - MYSQL_USER=wedding_user
+      - MYSQL_PASSWORD=wedding_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - wedding-network
+
+  # Redis Cache
+  redis:
+    image: redis:7.0-alpine
+    container_name: wedding-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - wedding-network
+
+  # phpMyAdmin (Optional - for database management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: wedding-phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=wedding_user
+      - PMA_PASSWORD=wedding_password
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - wedding-network
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  wedding-network:
+    driver: bridge

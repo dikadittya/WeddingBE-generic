@@ -34,6 +34,9 @@ class CasbinMiddleware
             $action = $request->method();
         }
 
+        // Normalize action to uppercase to match seeded policies
+        $action = strtoupper($action);
+
         if (!Enforcer::enforce($role, $resource, $action)) {
             return response()->json([
                 'status' => 'error',

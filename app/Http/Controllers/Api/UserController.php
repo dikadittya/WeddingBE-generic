@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -29,7 +28,7 @@ class UserController extends Controller
     /**
      * Store a newly created user.
      */
-    public function store(StoreUserRequest $request): JsonResponse
+    public function store(UserRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
@@ -67,7 +66,7 @@ class UserController extends Controller
     /**
      * Update the specified user.
      */
-    public function update(UpdateUserRequest $request, string $id): JsonResponse
+    public function update(UserRequest $request, string $id): JsonResponse
     {
         $user = User::find($id);
         

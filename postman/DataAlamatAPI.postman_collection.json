@@ -1,0 +1,614 @@
+{
+	"info": {
+		"_postman_id": "data-alamat-api-collection",
+		"name": "Data Alamat API",
+		"description": "Collection for Data Alamat CRUD operations in Wedding Backend API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Data Alamat",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat?page=1&per_page=15&search=&kode_provinsi=&kode_kabupaten=",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Page number for pagination"
+						},
+						{
+							"key": "per_page",
+							"value": "15",
+							"description": "Number of items per page"
+						},
+						{
+							"key": "search",
+							"value": "",
+							"description": "Search in nama provinsi, kabupaten, kecamatan, desa"
+						},
+						{
+							"key": "kode_provinsi",
+							"value": "",
+							"description": "Filter by province code"
+						},
+						{
+							"key": "kode_kabupaten",
+							"value": "",
+							"description": "Filter by regency code"
+						}
+					]
+				},
+				"description": "Retrieve paginated list of data alamat with optional search and filter parameters"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Data alamat retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"kode_alamat\": \"ALM001\",\n            \"nama_provinsi\": \"DKI Jakarta\",\n            \"kode_provinsi\": \"31\",\n            \"nama_kabupaten\": \"Jakarta Pusat\",\n            \"kode_kabupaten\": \"3171\",\n            \"nama_kecamatan\": \"Menteng\",\n            \"kode_kecamatan\": \"3171010\",\n            \"nama_desa\": \"Menteng\",\n            \"kode_desa\": \"3171010001\",\n            \"jarak\": \"5.50\",\n            \"kd_rumahan\": \"RMH001\",\n            \"kd_gedung\": \"GDG001\",\n            \"created_at\": \"2025-12-08T10:00:00.000000Z\",\n            \"updated_at\": \"2025-12-08T10:00:00.000000Z\"\n        }\n    ],\n    \"pagination\": {\n        \"current_page\": 1,\n        \"per_page\": 15,\n        \"total\": 1,\n        \"last_page\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Data Alamat by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat",
+						"1"
+					]
+				},
+				"description": "Retrieve specific data alamat by ID"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Data alamat retrieved successfully\",\n    \"data\": {\n        \"id\": 1,\n        \"kode_alamat\": \"ALM001\",\n        \"nama_provinsi\": \"DKI Jakarta\",\n        \"kode_provinsi\": \"31\",\n        \"nama_kabupaten\": \"Jakarta Pusat\",\n        \"kode_kabupaten\": \"3171\",\n        \"nama_kecamatan\": \"Menteng\",\n        \"kode_kecamatan\": \"3171010\",\n        \"nama_desa\": \"Menteng\",\n        \"kode_desa\": \"3171010001\",\n        \"jarak\": \"5.50\",\n        \"kd_rumahan\": \"RMH001\",\n        \"kd_gedung\": \"GDG001\",\n        \"created_at\": \"2025-12-08T10:00:00.000000Z\",\n        \"updated_at\": \"2025-12-08T10:00:00.000000Z\"\n    }\n}"
+				},
+				{
+					"name": "Not Found Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat",
+								"999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Data alamat not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Data Alamat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"kode_alamat\": \"ALM002\",\n    \"nama_provinsi\": \"Jawa Barat\",\n    \"kode_provinsi\": \"32\",\n    \"nama_kabupaten\": \"Bandung\",\n    \"kode_kabupaten\": \"3273\",\n    \"nama_kecamatan\": \"Coblong\",\n    \"kode_kecamatan\": \"3273040\",\n    \"nama_desa\": \"Dago\",\n    \"kode_desa\": \"3273040001\",\n    \"jarak\": 12.75,\n    \"kd_rumahan\": \"RMH002\",\n    \"kd_gedung\": \"GDG002\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat"
+					]
+				},
+				"description": "Create new data alamat entry"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kode_alamat\": \"ALM002\",\n    \"nama_provinsi\": \"Jawa Barat\",\n    \"kode_provinsi\": \"32\",\n    \"nama_kabupaten\": \"Bandung\",\n    \"kode_kabupaten\": \"3273\",\n    \"nama_kecamatan\": \"Coblong\",\n    \"kode_kecamatan\": \"3273040\",\n    \"nama_desa\": \"Dago\",\n    \"kode_desa\": \"3273040001\",\n    \"jarak\": 12.75,\n    \"kd_rumahan\": \"RMH002\",\n    \"kd_gedung\": \"GDG002\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Data alamat created successfully\",\n    \"data\": {\n        \"kode_alamat\": \"ALM002\",\n        \"nama_provinsi\": \"Jawa Barat\",\n        \"kode_provinsi\": \"32\",\n        \"nama_kabupaten\": \"Bandung\",\n        \"kode_kabupaten\": \"3273\",\n        \"nama_kecamatan\": \"Coblong\",\n        \"kode_kecamatan\": \"3273040\",\n        \"nama_desa\": \"Dago\",\n        \"kode_desa\": \"3273040001\",\n        \"jarak\": \"12.75\",\n        \"kd_rumahan\": \"RMH002\",\n        \"kd_gedung\": \"GDG002\",\n        \"updated_at\": \"2025-12-08T10:15:00.000000Z\",\n        \"created_at\": \"2025-12-08T10:15:00.000000Z\",\n        \"id\": 2\n    }\n}"
+				},
+				{
+					"name": "Validation Error Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kode_alamat\": \"\",\n    \"nama_provinsi\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat"
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"kode_alamat\": [\n            \"Kode alamat harus diisi\"\n        ],\n        \"nama_provinsi\": [\n            \"Nama provinsi harus diisi\"\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Data Alamat",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nama_provinsi\": \"Jawa Barat Updated\",\n    \"nama_kabupaten\": \"Kota Bandung\",\n    \"jarak\": 15.25,\n    \"kd_rumahan\": \"RMH002_UPDATED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat",
+						"2"
+					]
+				},
+				"description": "Update existing data alamat by ID. Only send fields that need to be updated."
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nama_provinsi\": \"Jawa Barat Updated\",\n    \"nama_kabupaten\": \"Kota Bandung\",\n    \"jarak\": 15.25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Data alamat updated successfully\",\n    \"data\": {\n        \"id\": 2,\n        \"kode_alamat\": \"ALM002\",\n        \"nama_provinsi\": \"Jawa Barat Updated\",\n        \"kode_provinsi\": \"32\",\n        \"nama_kabupaten\": \"Kota Bandung\",\n        \"kode_kabupaten\": \"3273\",\n        \"nama_kecamatan\": \"Coblong\",\n        \"kode_kecamatan\": \"3273040\",\n        \"nama_desa\": \"Dago\",\n        \"kode_desa\": \"3273040001\",\n        \"jarak\": \"15.25\",\n        \"kd_rumahan\": \"RMH002_UPDATED\",\n        \"kd_gedung\": \"GDG002\",\n        \"created_at\": \"2025-12-08T10:15:00.000000Z\",\n        \"updated_at\": \"2025-12-08T10:30:00.000000Z\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Data Alamat",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat",
+						"2"
+					]
+				},
+				"description": "Delete data alamat by ID"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Data alamat deleted successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Provinsi List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat-provinsi-list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat-provinsi-list"
+					]
+				},
+				"description": "Get list of unique provinces for dropdown usage"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat-provinsi-list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat-provinsi-list"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Provinsi list retrieved successfully\",\n    \"data\": [\n        {\n            \"kode_provinsi\": \"31\",\n            \"nama_provinsi\": \"DKI Jakarta\"\n        },\n        {\n            \"kode_provinsi\": \"32\",\n            \"nama_provinsi\": \"Jawa Barat\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Kabupaten List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/data-alamat-kabupaten-list?kode_provinsi=32",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"data-alamat-kabupaten-list"
+					],
+					"query": [
+						{
+							"key": "kode_provinsi",
+							"value": "32",
+							"description": "Filter kabupaten by province code"
+						}
+					]
+				},
+				"description": "Get list of kabupaten, optionally filtered by province code"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/data-alamat-kabupaten-list?kode_provinsi=32",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"data-alamat-kabupaten-list"
+							],
+							"query": [
+								{
+									"key": "kode_provinsi",
+									"value": "32"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Kabupaten list retrieved successfully\",\n    \"data\": [\n        {\n            \"kode_kabupaten\": \"3273\",\n            \"nama_kabupaten\": \"Kota Bandung\"\n        },\n        {\n            \"kode_kabupaten\": \"3204\",\n            \"nama_kabupaten\": \"Bandung\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

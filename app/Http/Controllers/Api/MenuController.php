@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\MenuRole;
-use App\Http\Requests\StoreMenuRequest;
-use App\Http\Requests\UpdateMenuRequest;
+use App\Http\Requests\MenuRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +51,7 @@ class MenuController extends Controller
     /**
      * Store a newly created menu.
      */
-    public function store(StoreMenuRequest $request): JsonResponse
+    public function store(MenuRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -121,7 +120,7 @@ class MenuController extends Controller
     /**
      * Update the specified menu.
      */
-    public function update(UpdateMenuRequest $request, string $id): JsonResponse
+    public function update(MenuRequest $request, string $id): JsonResponse
     {
         try {
             DB::beginTransaction();

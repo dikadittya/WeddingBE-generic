@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateMenuRequest extends FormRequest
+class MenuRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class UpdateMenuRequest extends FormRequest
     public function rules(): array
     {
         $menuId = $this->route('menu');
+        $isUpdate = $this->isMethod('PUT') || $this->isMethod('PATCH');
         
-        return [
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'slug' => ['sometimes', 'required', 'string', 'max:255', Rule::unique('menus', 'slug')->ignore($menuId)],
+        $rules = [
+            'name' => $isUpdate ? ['sometimes', 'required', 'string', 'max:255'] : ['required', 'string', 'max:255'],
             'icon' => ['nullable', 'string', 'max:255'],
             'url' => ['nullable', 'string', 'max:255'],
             'parent_id' => ['nullable', 'exists:menus,id'],
@@ -35,6 +35,15 @@ class UpdateMenuRequest extends FormRequest
             'roles' => ['nullable', 'array'],
             'roles.*' => ['string', 'in:super_admin,admin,user,guest'],
         ];
+
+        // Handle slug validation differently for create and update
+        if ($isUpdate && $menuId) {
+            $rules['slug'] = ['sometimes', 'required', 'string', 'max:255', Rule::unique('menus', 'slug')->ignore($menuId)];
+        } else {
+            $rules['slug'] = ['required', 'string', 'max:255', 'unique:menus,slug'];
+        }
+
+        return $rules;
     }
 
     /**

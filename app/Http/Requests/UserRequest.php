@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,23 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         $userId = $this->route('user');
+        $isUpdate = $this->isMethod('PUT') || $this->isMethod('PATCH');
         
-        return [
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
-            'password' => ['sometimes', 'nullable', 'string', Password::min(8)],
-            'role' => ['sometimes', 'nullable', 'string', 'in:admin,user,guest'],
+        $rules = [
+            'name' => $isUpdate ? ['sometimes', 'required', 'string', 'max:255'] : ['required', 'string', 'max:255'],
+            'role' => ['nullable', 'string', 'in:admin,user,guest'],
         ];
+
+        // Handle email validation differently for create and update
+        if ($isUpdate && $userId) {
+            $rules['email'] = ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)];
+            $rules['password'] = ['sometimes', 'nullable', 'string', Password::min(8)];
+        } else {
+            $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users,email'];
+            $rules['password'] = ['required', 'string', Password::min(8)];
+        }
+
+        return $rules;
     }
 
     /**
@@ -45,6 +55,7 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'Email harus diisi',
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
+            'password.required' => 'Password harus diisi',
             'password.min' => 'Password minimal 8 karakter',
             'role.in' => 'Role harus salah satu dari: admin, user, guest',
         ];

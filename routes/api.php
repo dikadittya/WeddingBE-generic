@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DataAlamatController;
 use App\Http\Controllers\Api\DataBungaMelatiController;
 use App\Http\Controllers\Api\DataBusanaController;
 use App\Http\Controllers\Api\DataBusanaKategoriController;
@@ -20,43 +21,14 @@ use App\Http\Controllers\Api\UserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-// Public routes
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-    Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
-
-    // Users CRUD with Casbin authorization
-    Route::middleware('casbin:users,GET')->get('/users', [UserController::class, 'index']);
-    Route::middleware('casbin:users,GET')->get('/users/{user}', [UserController::class, 'show']);
-    Route::middleware('casbin:users,POST')->post('/users', [UserController::class, 'store']);
-    Route::middleware('casbin:users,PUT')->put('/users/{user}', [UserController::class, 'update']);
-    Route::middleware('casbin:users,PATCH')->patch('/users/{user}', [UserController::class, 'update']);
-    Route::middleware('casbin:users,DELETE')->delete('/users/{user}', [UserController::class, 'destroy']);
-
-    // Menus CRUD with Casbin authorization
-    Route::middleware('casbin:menus,GET')->get('/menus', [MenuController::class, 'index']);
-    Route::middleware('casbin:menus,GET')->get('/menus/tree', [MenuController::class, 'tree']);
-    Route::middleware('casbin:menus,GET')->get('/menus/{menu}', [MenuController::class, 'show']);
-    Route::middleware('casbin:menus,POST')->post('/menus', [MenuController::class, 'store']);
-    Route::middleware('casbin:menus,PUT')->put('/menus/{menu}', [MenuController::class, 'update']);
-    Route::middleware('casbin:menus,PATCH')->patch('/menus/{menu}', [MenuController::class, 'update']);
-    Route::middleware('casbin:menus,DELETE')->delete('/menus/{menu}', [MenuController::class, 'destroy']);
+    Route::get('data-busana', [DataBusanaController::class, 'index'])->middleware('casbin:data-busana,get');
 });
 
-Route::get('/members', [MemberController::class, 'index']);
-Route::get('/members/{id}', [MemberController::class, 'show']);
-
 // Data Busana API Routes
-Route::get('data-busana', [DataBusanaController::class, 'index']); //->middleware('casbin:data-busana,read');
 Route::get('data-busana/{id}', [DataBusanaController::class, 'show']); //->middleware('casbin:data-busana,read');
 Route::post('data-busana', [DataBusanaController::class, 'store']); //->middleware('casbin:data-busana,create');
 Route::put('data-busana/{id}', [DataBusanaController::class, 'update']); //->middleware('casbin:data-busana,update');
@@ -83,3 +55,10 @@ Route::delete('data-bunga-melati/{id}', [DataBungaMelatiController::class, 'dest
 Route::get('data-bunga-melati-list', [DataBungaMelatiController::class, 'list']); //->middleware('casbin:data-bunga-melati,read');
 Route::get('data-bunga-melati-jenis-list', [DataBungaMelatiController::class, 'getJenisList']); //->middleware('casbin:data-bunga-melati,read');
 Route::get('data-bunga-melati-bouquet-list', [DataBungaMelatiController::class, 'getBouquetList']); //->middleware('casbin:data-bunga-melati,read');
+
+// Data Alamat API Routes
+Route::get('data-alamat', [DataAlamatController::class, 'index']); //->middleware('casbin:data-alamat,read');
+Route::get('data-alamat/{id}', [DataAlamatController::class, 'show']); //->middleware('casbin:data-alamat,read');
+Route::post('data-alamat', [DataAlamatController::class, 'store']); //->middleware('casbin:data-alamat,create');
+Route::put('data-alamat/{id}', [DataAlamatController::class, 'update']); //->middleware('casbin:data-alamat,update');
+Route::delete('data-alamat/{id}', [DataAlamatController::class, 'destroy']); //->middleware('casbin:data-alamat,delete');
