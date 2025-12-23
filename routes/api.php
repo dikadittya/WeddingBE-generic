@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DataAlamatController;
 use App\Http\Controllers\Api\DataBungaMelatiController;
 use App\Http\Controllers\Api\DataBusanaController;
 use App\Http\Controllers\Api\DataBusanaKategoriController;
+use App\Http\Controllers\Api\MasterAlamatController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\UserController;
@@ -62,3 +63,10 @@ Route::get('data-alamat/{id}', [DataAlamatController::class, 'show']); //->middl
 Route::post('data-alamat', [DataAlamatController::class, 'store']); //->middleware('casbin:data-alamat,create');
 Route::put('data-alamat/{id}', [DataAlamatController::class, 'update']); //->middleware('casbin:data-alamat,update');
 Route::delete('data-alamat/{id}', [DataAlamatController::class, 'destroy']); //->middleware('casbin:data-alamat,delete');
+
+    // Master Alamat API Routes
+Route::controller(MasterAlamatController::class)->prefix('master-alamat')->group(function () {
+    Route::get('/provinsi', 'getProvinces');
+    Route::get('/kabupaten', 'getRegencies');
+    Route::get('/kecamatan', 'getDistricts');
+});
