@@ -5,7 +5,7 @@ services:
     build: .
     container_name: api-generic
     volumes:
-      - ../api-generic:/var/www
+      - .:/var/www
     ports:
       - "9001:9000"
     networks:
@@ -16,7 +16,7 @@ services:
     container_name: api-generic-dev
     command: php artisan serve --host=0.0.0.0 --port=8001
     volumes:
-      - ../api-generic:/var/www
+      - .:/var/www
     ports:
       - "8001:8001"
     networks:
