@@ -30,13 +30,10 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Return JSON for unauthenticated API requests instead of redirecting.
+     * Convert an authentication exception into a response.
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Unauthenticated.'
-        ], 401);
+        return response()->json(['message' => 'Unauthenticated.'], 401);
     }
 }
