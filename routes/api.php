@@ -27,7 +27,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('data-busana', [DataBusanaController::class, 'index'])->middleware('casbin:data-busana,get');
+    Route::get('data-busana', [DataBusanaController::class, 'index']); //->middleware('casbin:data-busana,get');
 });
 Route::get('list-property', [DataPropertyController::class, 'listProperty']);
 
