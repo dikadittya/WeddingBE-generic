@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MasterAlamatController;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\DataPropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('data-busana', [DataBusanaController::class, 'index'])->middleware('casbin:data-busana,get');
 });
+Route::get('list-property', [DataPropertyController::class, 'listProperty']);
 
 // Data Busana API Routes
 Route::get('data-busana/{id}', [DataBusanaController::class, 'show']); //->middleware('casbin:data-busana,read');
