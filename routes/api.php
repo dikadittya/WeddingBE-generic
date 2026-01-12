@@ -8,9 +8,6 @@ use App\Http\Controllers\Api\DataBungaMelatiController;
 use App\Http\Controllers\Api\DataBusanaController;
 use App\Http\Controllers\Api\DataBusanaKategoriController;
 use App\Http\Controllers\Api\MasterAlamatController;
-use App\Http\Controllers\Api\MemberController;
-use App\Http\Controllers\Api\MenuController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\DataPropertyController;
 
 /*
@@ -55,7 +52,6 @@ Route::put('data-bunga-melati/{id}', [DataBungaMelatiController::class, 'update'
 Route::delete('data-bunga-melati/{id}', [DataBungaMelatiController::class, 'destroy']); //->middleware('casbin:data-bunga-melati,delete');
 
 // Custom routes for Data Bunga Melati
-Route::get('data-bunga-melati-list', [DataBungaMelatiController::class, 'list']); //->middleware('casbin:data-bunga-melati,read');
 Route::get('data-bunga-melati-jenis-list', [DataBungaMelatiController::class, 'getJenisList']); //->middleware('casbin:data-bunga-melati,read');
 Route::get('data-bunga-melati-bouquet-list', [DataBungaMelatiController::class, 'getBouquetList']); //->middleware('casbin:data-bunga-melati,read');
 
@@ -72,3 +68,30 @@ Route::controller(MasterAlamatController::class)->prefix('master-alamat')->group
     Route::get('/kabupaten', 'getRegencies');
     Route::get('/kecamatan', 'getDistricts');
 });
+
+
+// ####### List kebutuhan data job #######
+// informasi Detail booking
+// Route::get('detail-booking/{id}', [App\Http\Controllers\Api\MasterPaketController::class, 'detailBooking']);
+// informasi paket wedding
+Route::get('detail-paket/{id}', [App\Http\Controllers\Api\MasterPaketController::class, 'detailPaket']);
+// busana pengantin perempuan   -> data busana tipe busana Kebaya/Gown
+Route::get('list-busana-perempuan', [App\Http\Controllers\Api\MasterPaketController::class, 'busanaPerempuan']);
+// busana pengantin Laki-laki   -> data busana tipe busana Jas/Beskap
+Route::get('list-busana-laki', [App\Http\Controllers\Api\MasterPaketController::class, 'busanaLaki']);
+// bunga melati
+Route::get('data-bunga-melati-list', [DataBungaMelatiController::class, 'list']);
+
+// Set Pendamping   -> data busana Set Pendamping
+Route::get('list-set-pendamping', [App\Http\Controllers\Api\MasterPaketController::class, 'setPendamping']);
+// Item Pendamping  -> master_item_paket id_jenis=2 [Make up dan Busana Pendamping]
+Route::get('list-item-pendamping', [App\Http\Controllers\Api\MasterPaketController::class, 'itemPendamping']);
+
+// Ukuran Dekorasi  -> master_item_paket id_jenis=3 [Dekorasi]
+// Item Dekorasi    -> master_item_paket id_jenis=3 [Dekorasi]
+Route::get('list-item-dekorasi', [App\Http\Controllers\Api\MasterPaketController::class, 'itemDekorasi']);
+
+// list Entertain   -> master_item_paket id_jenis=5 [Entertain]
+Route::get('list-item-entertain', [App\Http\Controllers\Api\MasterPaketController::class, 'itemEntertain']);
+// list Properti    -> master_item_paket id_jenis=6 [Properti]
+Route::get('list-item-properti', [App\Http\Controllers\Api\MasterPaketController::class, 'itemProperti']);
