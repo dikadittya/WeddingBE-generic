@@ -248,4 +248,35 @@ class MasterPaketController extends Controller
             ], 500);
         }
     }
+    
+    public function itemDokumentasi(Request $request)
+    {
+        try {
+            $id_master_mua = $request->input('id_master_mua');
+            $kategori = $request->input('kategori');
+            
+            $data = MasterItemPaket::select('id', 'nama_item')
+                ->with(['hargaItem' => function($query) use ($id_master_mua, $kategori) {
+                    if ($id_master_mua) {
+                        $query->where('id_master_mua', $id_master_mua);
+                    }
+                    if ($kategori) {
+                        $query->where('kategori', $kategori);
+                    }
+                }])
+                ->where('id_jenis', 4) // id_jenis=4 [Dokumentasi]
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

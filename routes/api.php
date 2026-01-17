@@ -91,6 +91,9 @@ Route::get('list-item-pendamping', [App\Http\Controllers\Api\MasterPaketControll
 // Item Dekorasi    -> master_item_paket id_jenis=3 [Dekorasi]
 Route::get('list-item-dekorasi', [App\Http\Controllers\Api\MasterPaketController::class, 'itemDekorasi']);
 
+// List Dokumentasi  -> master_item_paket id_jenis=4 [Dokumentasi]
+Route::get('list-item-dokumentasi', [App\Http\Controllers\Api\MasterPaketController::class, 'itemDokumentasi']);
+
 // list Entertain   -> master_item_paket id_jenis=5 [Entertain]
 Route::get('list-item-entertain', [App\Http\Controllers\Api\MasterPaketController::class, 'itemEntertain']);
 // list Properti    -> master_item_paket id_jenis=6 [Properti]
