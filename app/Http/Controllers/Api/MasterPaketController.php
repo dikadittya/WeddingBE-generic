@@ -31,7 +31,7 @@ class MasterPaketController extends Controller
                     'master_item_paket.id_jenis',
                     'master_jenis_item_paket.nama_jenis',
                     DB::raw('COALESCE(master_item_paket_harga.harga, 0) AS harga_satuan'),
-                    DB::raw('COALESCE(master_item_paket_harga.harga, 0) * paket_items.volume AS harga_paket') // harga_satuan * valume
+                    DB::raw('COALESCE(master_item_paket_harga.harga, 0) * paket_items.volume AS harga_paket') // harga total per item
                 )
                 ->leftJoin('paket_master', 'paket_items.id_paket_master', '=', 'paket_master.id')
                 ->leftJoin('master_item_paket', 'paket_items.id_master_item_paket', '=', 'master_item_paket.id')
@@ -42,6 +42,7 @@ class MasterPaketController extends Controller
                         ->on('master_item_paket_harga.id_master_mua', '=', 'paket_master.id_mua');
                 })
                 ->where('paket_items.id_paket_master', $id)
+                ->orderBy('master_item_paket.order_item', 'asc')
                 ->get();
             
             // Pilihan groupBy berdasarkan parameter request
